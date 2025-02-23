@@ -1,0 +1,115 @@
+{
+    "intents": 
+    [
+        {
+            "tag": "greeting",
+            "patterns": 
+            [
+                "Hello", "Hey", "Hi", "Hi there", "Good morning", 
+                "Good afternoon", "Good evening", "Is anyone there?", 
+                "Anyone there?", "Hey bot", "Hi bot", "Hello bot",
+                "Yo", "What's up?", "Greetings", "Howdy"
+            ]
+        },
+        {
+            "tag": "goodbye",
+            "patterns": 
+            [
+                "Bye", "See you later", "Goodbye", "see ya",
+                "I am leaving", "Have a Good day", "Have a nice day", 
+                "Bye! Come back again soon." 
+            ]
+        },
+        {
+            "tag": "Astorine",
+            "patterns": 
+            [
+                "What is Astorine?", 
+                "Tell me about Astorine", 
+                "Explain Astorine", 
+                "Who is Astorine?",
+                "Astorine?", 
+                "Who are you?"
+            ]
+        },
+        {
+            "tag": "Developer",
+            "patterns": 
+            [
+                "Who is Tran Tien?", 
+                "Who is the developer of Astorine?", 
+                "Who is the creator of Astorine?", 
+                "Tran Tien", "developer",
+                "founder", "creator"
+            ]
+        },
+        {
+            "tag": "name",
+            "patterns": 
+            [
+                "What is your name?", 
+                "What should I call you?", 
+                "Do you have a name?"
+            ]
+        },
+        {
+            "tag": "help",
+            "patterns": 
+            [
+                "Can you help me?", 
+                "What can you do for me?", 
+                "Can you help me?", 
+                "What do you offer?", 
+                "What are your options?", 
+                "Help", "I need help", "Help me"
+            ]
+        },
+        {
+            "tag": "thanks",
+            "patterns": 
+            [
+                "Thanks", "Thank you", 
+                "That is helpful", "Thank is a lot!"
+
+            ]
+        },
+        {
+            "tag": "items",
+            "patterns": 
+            [
+                "Which items do you have?", 
+                "What kinds of items are there?", 
+                "What do you sell?"
+            ]
+        },
+        {
+            "tag": "payments",
+            "patterns": 
+            [
+                "Do you take credit cards?", 
+                "Do you accept Mastercard?",
+                "Can I pay with Paypal?", 
+                "Are you cash only?"
+            ]
+        },
+        {
+            "tag": "delivery",
+            "patterns": 
+            [
+                "How long does delivery take?",
+                "How long does shipping take?",
+                "When do I get my delivery?"
+            ]
+        },
+        {
+            "tag": "funny",
+            "patterns": 
+            [
+                "Tell me a joke!",
+                "Tell me something funny!",
+                "Do you know a joke?",
+                "Joke"
+            ]
+        }
+    ]
+}

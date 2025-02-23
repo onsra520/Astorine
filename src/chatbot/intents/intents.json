@@ -1,0 +1,178 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hello", "Hey", "Hi", "Hi there", "Good morning", 
+        "Good afternoon", "Good evening", "Is anyone there?", 
+        "Anyone there?", "Hey bot", "Hi bot", "Hello bot",
+        "Yo", "What's up?", "Greetings", "Howdy"
+      ],
+      "responses": [
+        "Hello!", 
+        "Good to see you again!", 
+        "Hi there, What can I do for you?", 
+        "Hello, how can I help?",
+        "Hi there! How can I assist you today?", 
+        "Hello! How can I help you find the perfect laptop?",
+        "Hey! Ready to explore some great laptops?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye", 
+        "See you later", 
+        "Goodbye", 
+        "see ya", 
+        "I am leaving", 
+        "Have a Good day",   
+        "Have a nice day", 
+        "Bye! Come back again soon."
+      ],
+      "responses": [
+        "Goodbye! Have a great day!", 
+        "See you soon!", 
+        "Until next time!", 
+        "Bye! Come back again soon."
+      ]
+    },
+    {
+      "tag": "Astorine",
+      "patterns": [
+        "What is Astorine?", 
+        "Tell me about Astorine", 
+        "Explain Astorine",
+        "Who is Astorine?",
+        "Astorine?",
+        "Who are you?"
+      ],
+      "responses": [
+        "Astorine is a Chatbot that helps you to find the best Laptop for you. It is developed by Tran Tien",
+        "Astorine is an AI-driven chatbot designed by Tran Tien to assist you in finding the ideal laptop.",
+        "Astorine is a chatbot created by Tran Tien to help you find the perfect laptop.",
+        "I am Astorine, your assistant. I am here to help you find the perfect laptop.",
+        "I am Astorine, a chatbot designed to help you find the perfect laptop."
+
+      ]
+    },
+    {
+      "tag": "Developer",
+      "patterns": [
+        "Who is Tran Tien?", 
+        "Who is the developer of Astorine?", 
+        "Who is the founder of Astorine?", 
+        "Who is the creator of Astorine?", 
+        "Who is the owner of Astorine?",
+        "Tran Tien",
+        "developer",
+        "founder",
+        "creator",
+        "owner"
+      ],
+      "responses": [
+        "Tran Tien is a student at FPT University. He is my master",
+        "Tran Tien is a student at FPT University. He is the creator of Astorine.",
+        "Tran Tien is a student at FPT University. He is the owner of Astorine."
+      ]
+    },
+    {
+      "tag": "name",
+      "patterns": [
+        "What is your name?", 
+        "What should I call you?", 
+        "Do you have a name?", 
+        "Name"
+      ],
+      "responses": [
+        "You can call me Astorine.", 
+        "I am Astorine!", 
+        "I am Astorine, your assistant."
+      ]
+    },
+    {
+      "tag": "help",
+      "patterns": [
+        "Can you help me?", 
+        "What can you do for me?", 
+        "Can you help me?", 
+        "What do you offer?", 
+        "What are your options?",
+        "Help",
+        "I need help",
+        "Help me"
+      ],
+      "responses": [
+        "I can guide you through the process of finding the perfect laptop for you.", 
+        "I can help you find the laptop that best fits your needs."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks", 
+        "Thank you", 
+        "That is helpful", 
+        "Thank is a lot!"
+      ],
+      "responses": [
+        "Happy to help!", 
+        "Any time!", 
+        "My pleasure"
+      ]
+    },
+    {
+      "tag": "items",
+      "patterns": [
+        "Which items do you have?",
+        "What kinds of items are there?",
+        "What do you sell?"
+      ],
+      "responses": [
+        "We offer a curated collection of high-end laptops, featuring both luxurious and stylish designs.",
+        "We specialize in the sale of premium laptops. Our inventory boasts a diverse selection, encompassing luxurious and stylish models.",
+        "Experience the pinnacle of laptop technology. Explore our diverse collection of high-end laptops, featuring luxurious designs and unparalleled style."
+      ]
+    },
+    {
+      "tag": "payments",
+      "patterns": [
+        "Do you take credit cards?",
+        "Do you accept Mastercard?",
+        "Can I pay with Paypal?",
+        "Are you cash only?"
+      ],
+      "responses": [
+        "We accept all payment methods, even Bitcoin payments",
+        "We offer a variety of payment options, including Bitcoin.",
+        "Pay your way. We accept Bitcoin and all major credit cards."
+      ]
+    },
+    {
+      "tag": "delivery",
+      "patterns": [
+        "How long does delivery take?",
+        "How long does shipping take?",
+        "When do I get my delivery?"
+      ],
+      "responses": [
+        "We guarantee your order will be delivered within 2-5 hours.",
+        "You can count on receiving your order within the next 2-5 hours.",
+        "Your order is just a few hours away from you."
+      ]
+    },
+    {
+      "tag": "funny",
+      "patterns": [
+        "Tell me a joke!",
+        "Tell me something funny!",
+        "Do you know a joke?",
+        "Joke"
+      ],
+      "responses": [
+        "You want to be a masterchef? buy the 'Laptop MSI Gaming GF63 Thin' furnace, you can cook when using it :D",
+        "I have been a fan of the Asus ROG Zephyrus for a solid 20 years. After learning that the ROG Zephyrus is the most powerful gaming laptop of all time, I feel like a king wearing royal robes whenever I take it out for breakfast in the morning. Walking down the street, even dogs look scared and do not dare to bark. In the afternoon, I dominate a few matches, and by evening, I am glowing with victory. At night, when I hit the town, girls compete to take photos with me. My exes all suddenly want to rekindle old flames. My friends look at me with respect and bow their heads in admiration. Back home, my family is proud, and the neighbors are green with envy because they know I have been a loyal Asus ROG Zephyrus fan for 20 years." 
+      ]
+    }
+  ]
+}

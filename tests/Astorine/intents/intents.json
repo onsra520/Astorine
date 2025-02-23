@@ -1,0 +1,185 @@
+{
+  "intents": 
+  [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hello", "Hey", "Hi", "Hi there", "Good morning", 
+        "Good afternoon", "Good evening", "Is anyone there?", 
+        "Anyone there?", "Hey bot", "Hi bot", "Hello bot",
+        "Yo", "What's up?", "Greetings", "Howdy"
+      ],
+      "responses": [
+        "Hi there! How can I assist you today?", 
+        "Hello! How can I help you find the perfect laptop?",
+        "Hey! Ready to explore some great laptops?"
+      ],
+      "context": ["Need_help"],
+      "context_out": "collecting_criteria"
+    },
+    {
+      "tag": "help",
+      "patterns": [
+        "Can you help me?", "What can you do?", "Help me", 
+        "I need help", "Could you assist me?", "Guide me", 
+        "Help please", "Need assistance", "Show me options",
+        "Find me a laptop", "Recommend laptops", "Suggest computers"
+      ],
+      "responses": [
+        "Sure! Let's find your ideal laptop. Do you have a preferred brand?",
+        "I'd be happy to help! What brand are you interested in?",
+        "Of course! Let's start with the brand. Any preferences?"
+      ],
+      "context": ["Need_help"],
+      "context_out": "collecting_criteria"
+    },
+    {
+      "tag": "laptop_brand",
+      "patterns": [
+        "Acer", "Asus", "Dell", "Gigabyte", "HP", 
+        "LG", "Lenovo", "MSI", "Microsoft", "Razer", 
+        "Samsung", "XMG", "XPG", "I don not know",
+        "all brands", "any brand", "Do not know"
+      ],
+      "responses": [
+        "Great choice! What screen size are you looking for?",
+        "Nice! What screen size would you prefer?",
+        "Cool! How about the screen size?"
+      ],
+      "context": ["collecting_criteria"],
+      "context_out": "wofk_for"
+    },
+    {
+      "tag": "work_for",
+      "patterns": [
+        "gaming", "designing", "programming", "video editing",
+        "3D modeling", "software development", "app development", "graphic design",
+        "game development", "web development", "animation", "UI/UX design",
+        "AI development", "data science", "machine learning"
+      ],
+      "responses": [
+
+      ],
+      "context": ["wofk_for"],
+      "context_out": "Screen_size"
+    },
+    {
+      "tag": "screen_size",
+      "patterns": [
+        "13 inch", "14 inch", "15 inch", "17 inch", "16 inch",
+        "I do not know", "any size", "all sizes", "Do not know",
+        "all", "13", "14", "15", "17", "16", "17", "13'", "14'",
+        "15'", "16'", "17'", "not sure", "any size", "no preference", 
+        "doesn't matter", "at least 16GB", "at least 32GB" 
+      ],
+      "responses": [
+        "Got it! How much RAM do you need?",
+        "Alright! What's your RAM requirement?",
+        "Sure! How much RAM are you aiming for?"
+      ],
+      "context": ["Screen_size"],
+      "context_out": "ram"
+    },
+    {
+      "tag": "ram",
+      "patterns": [
+        "16GB", "32GB", "64GB", "128GB", "40GB", "48GB",
+        "16", "32", "64", "128", "40", "48",
+        "I do not know", "any size", "all sizes", "Do not know"
+      ],
+      "responses": [
+        "Noted! What processor are you looking for?",
+        "Got it! Any specific CPU in mind?",
+        "Cool! Which processor do you prefer?"
+      ],
+      "context": ["ram"],
+      "context_out": "processor"
+    },
+    {
+      "tag": "processor",
+      "patterns": [
+        "Intel Core i7 12700H", "AMD Ryzen 5 7640HS", "AMD Ryzen 7 7840HS",
+        "AMD Ryzen 9 7940HS", "Intel Core i5 14450HX","Intel Core i7 13700H", 
+        "Intel Core i7 13700HX", "Intel Core i7 12650H", "Intel Core i7 11800H",
+        "AMD Ryzen 7 6800H", "Intel Core i9 13900HX", "AMD Ryzen AI 9 365",
+        "Intel Core i9 11900H", "AMD Ryzen AI 9 HX 370", "Intel Core i9 13980HX",
+        "Intel Core i9 13900H", "AMD Ryzen 9 6900HX", "AMD Ryzen 7 4800H",   
+        "Intel Core i9 14900HX", "AMD Ryzen 9 7945HX", "AMD Ryzen 7 5800H",             
+        "Intel Core i9 12900H", "AMD Ryzen 9 6900HS", "Intel Core i7 13650HX",
+        "AMD Ryzen 9 5900HX", "Intel Core i9 12950HX", "AMD Ryzen 7 7735HS",
+        "AMD Ryzen 9 8945HS", "AMD Ryzen 7 4800HS", "AMD Ryzen 9 5900HS",
+        "Intel Core Ultra 7 155H", "Intel Core Ultra 9 185H", "AMD Ryzen 5 7535HS",
+        "AMD Ryzen 7 8845H", "AMD Ryzen 7 8845HS", "Intel Core i9 13905H",
+        "AMD Ryzen 9 7940HX", "Intel Core i7 10870H", "Intel Core i9 10980HK",
+        "Intel Core i7 13620H", "Intel Core i9 13900HK", "Intel Core i7 14650HX",
+        "Intel Core i9 11980HK", "Intel Core i7 14700HX", "Intel Core i5 12500H",
+        "Intel Core i9 12900HK", "Intel Core i5 13450HX", "Intel Core i9 9980HK",
+        "Intel Core i7 9750H", "Intel Core i9 13950HX", "Intel Core Ultra 7 155U",
+        "Intel Core i5 13500H", "Intel Core i7 1355U", "Intel Core i9 12900HX", 
+        "Intel Core i7 12800HX", "Intel Core i7 1365U", "Intel Core i7 1165G7",
+        "Intel Core i7 11850H", "AMD Ryzen 9 Pro 7940HS","Intel Core i7 1260P",
+        "Intel Core i7 13800H", "Intel Core i7 1360P", "Intel Core i5 14500HX",
+        "AMD Ryzen 7 7745HX", "AMD Ryzen 7 Pro 7840HS","Intel Core i7 12800H",
+        "Intel Core i7 10610U", "AMD Ryzen 7 Pro 6850H", "Intel Core i7 10750H",
+        "Intel Core i7 10875H", "Intel Core i7 1185G7","I do not know",
+        "any processor", "all processors", "Do not know", "all", "Intel", "AMD",
+        "Core i5", "Core i7", "Core i9", "Ryzen 5", "Ryzen 7", "Ryzen 9",
+        "core ultra 7", "core ultra 9" , "Ryzen 9 pro", "Ryzen AI 9", "no preference",
+        "doesn't matter", "not sure", "any processor", "no preference", "doesn't matter"
+      ],
+      "responses": [
+        "Got it! What GPU do you need?",
+        "Alright! Any specific graphics card?",
+        "Noted! Which GPU are you aiming for?"
+      ],
+      "context": ["processor"],
+      "context_out": "GPU"
+    },
+    {
+      "tag": "GPU",
+      "patterns": [
+        "Nvidia GeForce RTX 3070 Ti", "Nvidia GeForce RTX 4050",
+        "Nvidia GeForce RTX 4060", "Nvidia GeForce RTX 4070",
+        "Nvidia GeForce RTX 3050", "Nvidia GeForce RTX 3050 Ti",
+        "Nvidia GeForce RTX 3070", "Nvidia GeForce RTX 4080",
+        "Nvidia GeForce RTX 4090", "Nvidia GeForce RTX 3060",
+        "Nvidia GeForce RTX 3080", "Nvidia GeForce RTX 3080 Ti",
+        "Nvidia RTX 3000 Ada", "Nvidia RTX A3000", "Nvidia RTX A3000 ",
+        "Nvidia GeForce RTX 2050", "AMD Radeon RX 6800S",
+        "AMD Radeon RX 7600S", "AMD Radeon RX 7700S",
+        "Nvidia GeForce RTX 3080 ", "Nvidia GeForce GTX 1660 Ti",
+        "Nvidia GeForce RTX 2080 Super Max-Q", "Nvidia GeForce 3060",
+        "AMD Radeon RX 6650M", "Nvidia RTX A500", "Nvidia T500",
+        "Nvidia RTX 2000 Ada", "Nvidia RTX A2000", "Nvidia RTX A1000",
+        "Nvidia GeForce MX330", "AMD Radeon RX 6500M", "Nvidia RTX A5500",
+        "Nvidia GeForce GTX 1650 Ti", "Nvidia RTX A5000 ",
+        "Nvidia GeForce RTX 2060", "Nvidia GeForce RTX 2070",
+        "Nvidia Geforce RTX 4070", "Nvidia GeForce RTX 3060 Ti",
+        "any GPU", "no preference", "I don't know", "whatever", "doesn't matter",
+        "for gaming", "for design", "for machine learning"
+      ],
+      "responses": [
+        "Almost there! What's your budget?",
+        "Great! What's your price range?",
+        "Last step! How much are you willing to spend?"
+      ],
+      "context": ["GPU"],
+      "context_out": "Budget"
+    },
+    {
+      "tag": "budget",
+      "patterns": [
+        "I do not know", "any budget", "all budgets", "Do not know", 
+        "Not sure", "any budget", "no limit", "whatever", "doesn't matter", "cheap laptop",
+        "mid-range", "high-end", "best value"
+      ],
+      "responses": [
+        "🔍 Searching for the best options...",
+        "🖥️ Let me find the perfect laptop for you...",
+        "⏳ One moment while I crunch the numbers..."
+      ],
+      "context": ["Budget"],
+      "context_out": "See_laptop"
+    }    
+  ]    
+}
