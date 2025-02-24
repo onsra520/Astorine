@@ -318,7 +318,7 @@ def price_generation():
     return money_sentence
 
 
-def generate_text(num: int = 100) -> pd.DataFrame:
+def generate_text(num: int = 100, choice: str = "all", save: bool = False, filename: str = "generated.csv") -> pd.DataFrame:
     """
     Generates a given number of random questions based on the templates, sub-questions, and use-cases defined in the labels.json file.
 
@@ -392,10 +392,18 @@ def generate_text(num: int = 100) -> pd.DataFrame:
         component = " ".join(word + " " + connector for word, connector in zip(component_text[:-1], selected_connectors))+ " " + component_text[-1]
         brand_sentence = sub_brand.replace("[brand]", brand)
 
-        sentence_1 = f"{template.replace("[component]", component).replace("[sub_brand]", brand_sentence)} {use_case} {price}."
-        sentence_2 = f"{sub_template.replace("[component]", component).replace("[use_case]", use_case).replace("[sub_brand]", brand_sentence)} {price}."
-
-        question_entry = {"question": random.choice([sentence_1, sentence_2])}
+        question_entry = {}
+        if choice == "all":
+            sentence_1 = f"{template.replace('[component]', component).replace('[sub_brand]', brand_sentence)} {use_case} {price}."
+            sentence_2 = f"{sub_template.replace('[component]', component).replace('[use_case]', use_case).replace('[sub_brand]', brand_sentence)} {price}."
+            question_entry = {"question": random.choice([sentence_1, sentence_2])}
+        elif choice == "s1":
+            sentence_1 = f"{template.replace('[component]', component).replace('[sub_brand]', brand_sentence)} {use_case} {price}."
+            question_entry = {"question": sentence_1}
+        elif choice == "s2":
+            sentence_2 = f"{sub_template.replace('[component]', component).replace('[use_case]', use_case).replace('[sub_brand]', brand_sentence)} {price}."
+            question_entry = {"question": sentence_2}
+        
         brand_entry = {"brand": brand}
         price_entry = {"price": price}
 
@@ -406,8 +414,12 @@ def generate_text(num: int = 100) -> pd.DataFrame:
         generated_questions.append(question_entry)
 
     df = pd.DataFrame(generated_questions)
-    # df.to_csv(paths["questions"], index=False, encoding="utf-8")
+    
+    if save:
+        if filename:
+            df.to_csv(os.path.join(paths["processed"], filename), index=False, encoding="utf-8")
+        else:
+            df.to_csv(paths["questions"], index=False, encoding="utf-8")
+            
     return df
 
-if __name__ == "__main__":
-    generate_text(1000)
