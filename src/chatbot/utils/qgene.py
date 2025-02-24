@@ -406,7 +406,7 @@ def generate_text(num: int = 100) -> pd.DataFrame:
         generated_questions.append(question_entry)
 
     df = pd.DataFrame(generated_questions)
-    df.to_csv(paths["questions"], index=False, encoding="utf-8")
+    # df.to_csv(paths["questions"], index=False, encoding="utf-8")
     return df
 
 if __name__ == "__main__":
