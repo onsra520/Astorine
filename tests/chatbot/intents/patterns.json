@@ -1,0 +1,47 @@
+{
+    "intents": 
+    [
+        {
+            "tag": "greeting",
+            "patterns": 
+            [
+                "Hello", "Hey", "Hi", "Hi there", "Good morning", 
+                "Good afternoon", "Good evening", "Is anyone there?", 
+                "Anyone there?", "Hey bot", "Hi bot", "Hello bot",
+                "Yo", "What's up?", "Greetings", "Howdy"
+            ]
+        },
+        {
+            "tag": "Astorine",
+            "patterns": 
+            [
+                "What is Astorine?", 
+                "Tell me about Astorine", 
+                "Explain Astorine", 
+                "Who is Astorine?",
+                "Astorine?", 
+                "Who are you?"
+            ]
+        },
+        {
+            "tag": "Developer",
+            "patterns": 
+            [
+                "Who is Tran Tien?", 
+                "Who is the developer of Astorine?", 
+                "Who is the creator of Astorine?", 
+                "Tran Tien", "developer",
+                "founder", "creator"
+            ]
+        },
+        {
+            "tag": "goodbye",
+            "patterns": 
+            [
+                "Bye", "See you later", "Goodbye", "see ya",
+                "I am leaving", "Have a Good day", "Have a nice day", 
+                "Bye! Come back again soon." 
+            ]
+        }
+    ]
+}

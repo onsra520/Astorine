@@ -4,22 +4,23 @@ from pathlib import Path
 import pandas as pd
 import json5
 
-project_root = Path(__file__).resolve().parents[1]
-sys.path.append(str(project_root))
+root = Path(__file__).resolve().parents[2]
+sys.path.append(str(root))
 from data.pipelines.cdata import data_cleaning
 
 paths = {
-    "processed": os.path.abspath(f"{project_root}/data/storage/processed"),
-    "qfragments": os.path.abspath(f"{project_root}/intents/qfragments.json"),
-    "questions": os.path.abspath(f"{project_root}/intents/questions.json"),
+    "processed": os.path.abspath(f"{root}/data/storage/processed"),
+    "odata": os.path.abspath(f"{root}/data/storage/processed/final_cleaning.csv"),
+    "qfragments": os.path.abspath(f"{root}/intents/qfragments.json"),
+    "questions": os.path.abspath(f"{root}/intents/questions.json"),
 }
-if "final_cleaning.csv" not in os.listdir(paths["processed"]):
+
+if not os.path.exists(paths["odata"]):
     print("Data not found. Running data cleaning pipeline...")
-    spec = data_cleaning()
+    odata = data_cleaning()
 
-spec = pd.read_csv(os.path.join(paths['processed'], "final_cleaning.csv"))
+odata, data = pd.read_csv(paths["odata"]), {}
 
-data = {}
 data["resolution"] = {
     "3072 x 1920": ["3072 x 1920", "3K", "3072p", "Triple HD"],
     "1920 x 1200": ["1920 x 1200", "WUXGA", "16:10 HD+", "HD+ (16:10)"],
@@ -28,7 +29,7 @@ data["resolution"] = {
     "1920 x 1080": ["1920 x 1080", "FHD", "Full HD",  "1080p"],
     "3840 x 2160": ["3840 x 2160", "4K UHD", "4K", "UHD", "Ultra HD", "2160p"],
     "2880 x 1800": ["2880 x 1800", "Retina 15", "QHD+ (16:10)"],
-    "3840 x 2400": ["3840 x 2400", "WQUXGA", "Wide Quad Ultra Extended", "16:10 4K+"],
+    "3840 x 2400": ["3840 x 2400", "WQUXGA", "16:10 4K+"],
     "3200 x 2000": ["3200 x 2000", "QHD+", "3K2K", "WQXGA+ (16:10)"],
     "2880 x 1620": ["2880 x 1620", "QHD+ 16:9", "16:9 QHD+", "3K2K (16:9)"],
     "3456 x 2160": ["3456 x 2160", "Retina 16", "16-inch Retina", "3,5k", "3K5", "3.5K"],
@@ -58,7 +59,7 @@ data["cpu"] = {
 
 intel = []
 amd = []
-for cpu in spec["CPU"]:
+for cpu in odata["CPU"]:
     if "Intel" in cpu:
         intel.append(cpu)
     elif "AMD" in cpu:
@@ -98,7 +99,7 @@ for amd_cpu in amd:
     if len(sku_numeric_digits) == 4:
         generation = f"{sku_numeric_digits[0:1]} series"
     else:
-        generation = f"{sku_numeric_digits} series" 
+        generation = f"{sku_numeric_digits} series"
 
     if generation not in data["cpu"]["amd"][brand_modifier]:
         data["cpu"]["amd"][brand_modifier][generation] = {}
@@ -590,6 +591,16 @@ money_terms = [
 ]
 
 def assembler():
+    """
+    Assembles data from various categories into a dictionary and writes it 
+    to a JSON file.
+
+    This function populates the `data` dictionary with predefined templates, 
+    use cases, sub questions, sub brands, and money terms. It then writes 
+    this data into a JSON file specified by `paths["qfragments"]`, ensuring 
+    the content is formatted with UTF-8 encoding and indented for 
+    readability.
+    """
     data["templates"] = templates
     data["use case"] = use_case
     data["sub questions"] = sub_templates

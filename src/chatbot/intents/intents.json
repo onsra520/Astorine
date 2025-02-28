@@ -40,12 +40,21 @@
     {
       "tag": "Astorine",
       "patterns": [
-        "What is Astorine?", 
-        "Tell me about Astorine", 
+        "What is Astorine?",
+        "Tell me about Astorine",
         "Explain Astorine",
         "Who is Astorine?",
         "Astorine?",
-        "Who are you?"
+        "Who are you?",
+        "Define Astorine",
+        "Please describe Astorine",
+        "Can you tell me more about Astorine?",
+        "I want to know about Astorine",
+        "What does Astorine do?",
+        "How would you explain Astorine?",
+        "Could you provide some details about Astorine?",
+        "Introduce yourself, Astorine",
+        "Give me information on Astorine"
       ],
       "responses": [
         "Astorine is a Chatbot that helps you to find the best Laptop for you. It is developed by Tran Tien",
@@ -53,22 +62,34 @@
         "Astorine is a chatbot created by Tran Tien to help you find the perfect laptop.",
         "I am Astorine, your assistant. I am here to help you find the perfect laptop.",
         "I am Astorine, a chatbot designed to help you find the perfect laptop."
-
       ]
     },
     {
-      "tag": "Developer",
-      "patterns": [
-        "Who is Tran Tien?", 
-        "Who is the developer of Astorine?", 
-        "Who is the founder of Astorine?", 
-        "Who is the creator of Astorine?", 
+    "patterns": [
+        "Who is Tran Tien?",
+        "Who is the developer of Astorine?",
+        "Who is the founder of Astorine?",
+        "Who is the creator of Astorine?",
         "Who is the owner of Astorine?",
         "Tran Tien",
         "developer",
         "founder",
         "creator",
-        "owner"
+        "owner",
+        "Tell me about Tran Tien.",
+        "Can you tell me who Tran Tien is?",
+        "I want to know more about the developer of Astorine.",
+        "Please explain who the developer of Astorine is.",
+        "Give me details about the founder of Astorine.",
+        "Do you know who created Astorine?",
+        "Astorine was developed by whom?",
+        "Who owns Astorine?",
+        "What do we know about the creator of Astorine?",
+        "Identify the developer of Astorine.",
+        "I need info on Tran Tien, the founder of Astorine.",
+        "Please tell me about the owner of Astorine.",
+        "Can you provide background information on Tran Tien?",
+        "Tell me more about the Astorine developer."
       ],
       "responses": [
         "Tran Tien is a student at FPT University. He is my master",
@@ -79,10 +100,18 @@
     {
       "tag": "name",
       "patterns": [
-        "What is your name?", 
-        "What should I call you?", 
-        "Do you have a name?", 
-        "Name"
+        "What is your name?",
+        "What should I call you?",
+        "Do you have a name?",
+        "Name",
+        "Could you please tell me your name?",
+        "May I know your name?",
+        "Who am I talking to?",
+        "Introduce yourself",
+        "What's your handle?",
+        "How do you go by?",
+        "Tell me your name",
+        "Can you share your name?"
       ],
       "responses": [
         "You can call me Astorine.", 
@@ -93,14 +122,26 @@
     {
       "tag": "help",
       "patterns": [
-        "Can you help me?", 
-        "What can you do for me?", 
-        "Can you help me?", 
-        "What do you offer?", 
+        "Can you help me?",
+        "What can you do for me?",
+        "Can you help me?",
+        "What do you offer?",
         "What are your options?",
         "Help",
         "I need help",
-        "Help me"
+        "Help me",
+        "Could you assist me?",
+        "I require assistance",
+        "Please help",
+        "I need some support",
+        "Is there any help available?",
+        "Do you provide help?",
+        "What services do you offer?",
+        "How can you assist me?",
+        "Assist me please",
+        "I am in need of help",
+        "Could you give me some help?",
+        "Please provide assistance"
       ],
       "responses": [
         "I can guide you through the process of finding the perfect laptop for you.", 
@@ -110,10 +151,18 @@
     {
       "tag": "thanks",
       "patterns": [
-        "Thanks", 
-        "Thank you", 
-        "That is helpful", 
-        "Thank is a lot!"
+        "Thanks",
+        "Thank you",
+        "That is helpful",
+        "Thank is a lot!",
+        "Thanks a lot",
+        "Many thanks",
+        "I really appreciate it",
+        "I appreciate your help",
+        "Thanks so much",
+        "Thank you very much",
+        "I am grateful",
+        "I appreciate this"
       ],
       "responses": [
         "Happy to help!", 
@@ -126,7 +175,20 @@
       "patterns": [
         "Which items do you have?",
         "What kinds of items are there?",
-        "What do you sell?"
+        "What do you sell?",
+        "Can you list the products you offer?",
+        "Could you show me the items available?",
+        "Do you have any products for sale?",
+        "What items are on offer?",
+        "Tell me about the items you stock.",
+        "What's available for purchase?",
+        "What products do you have in stock?",
+        "List your items please.",
+        "What types of items can I buy?",
+        "Could you provide a list of items?",
+        "What merchandise do you sell?",
+        "Do you offer any goods for sale?",
+        "Please show me the inventory."
       ],
       "responses": [
         "We offer a curated collection of high-end laptops, featuring both luxurious and stylish designs.",
@@ -140,7 +202,22 @@
         "Do you take credit cards?",
         "Do you accept Mastercard?",
         "Can I pay with Paypal?",
-        "Are you cash only?"
+        "Are you cash only?",
+        "Do you accept Visa?",
+        "Can I pay with American Express?",
+        "Do you take debit cards?",
+        "Is Apple Pay accepted?",
+        "Do you support Google Pay?",
+        "What payment methods do you accept?",
+        "Are there alternative payment options available?",
+        "Do you allow bank transfers?",
+        "Can I pay using a mobile wallet?",
+        "Do you accept cryptocurrency?",
+        "Is contactless payment available?",
+        "Can I pay with a gift card?",
+        "Do you offer installment plans?",
+        "What are the accepted payment types?",
+        "How can I pay for my order?"
       ],
       "responses": [
         "We accept all payment methods, even Bitcoin payments",
@@ -153,7 +230,19 @@
       "patterns": [
         "How long does delivery take?",
         "How long does shipping take?",
-        "When do I get my delivery?"
+        "When do I get my delivery?",
+        "What is the estimated delivery time?",
+        "How many days until my package arrives?",
+        "When will my order be delivered?",
+        "Can you provide the shipping duration?",
+        "What are the delivery times?",
+        "How quickly is the shipping?",
+        "Do you offer expedited shipping?",
+        "How fast will my order arrive?",
+        "What's the delivery schedule?",
+        "When can I expect my shipment?",
+        "Please tell me the delivery timeframe.",
+        "What are the shipping times for my order?"
       ],
       "responses": [
         "We guarantee your order will be delivered within 2-5 hours.",

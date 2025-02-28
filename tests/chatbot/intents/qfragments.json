@@ -47,6 +47,7 @@
         "3840 x 2400": [
             "3840 x 2400",
             "WQUXGA",
+            "Wide Quad Ultra Extended",
             "16:10 4K+",
         ],
         "3200 x 2000": [
@@ -78,83 +79,83 @@
     cpu: {
         intel: {
             "core i5": {
+                "12 series": {
+                    "Intel Core i5 12500H": "H",
+                },
                 "13 series": {
                     "Intel Core i5 13450HX": "HX",
                     "Intel Core i5 13500H": "H",
                 },
                 "14 series": {
-                    "Intel Core i5 14500HX": "HX",
                     "Intel Core i5 14450HX": "HX",
-                },
-                "12 series": {
-                    "Intel Core i5 12500H": "H",
+                    "Intel Core i5 14500HX": "HX",
                 },
             },
             "core i7": {
-                "14 series": {
-                    "Intel Core i7 14700HX": "HX",
-                    "Intel Core i7 14650HX": "HX",
-                },
                 "13 series": {
-                    "Intel Core i7 13650HX": "HX",
-                    "Intel Core i7 1360P": "P",
                     "Intel Core i7 1355U": "U",
-                    "Intel Core i7 1365U": "U",
-                    "Intel Core i7 13700H": "H",
-                    "Intel Core i7 13700HX": "HX",
-                    "Intel Core i7 13620H": "H",
                     "Intel Core i7 13800H": "H",
-                },
-                "11 series": {
-                    "Intel Core i7 1185G7": "G",
-                    "Intel Core i7 1165G7": "G",
-                    "Intel Core i7 11800H": "H",
-                    "Intel Core i7 11850H": "H",
+                    "Intel Core i7 13700H": "H",
+                    "Intel Core i7 1365U": "U",
+                    "Intel Core i7 1360P": "P",
+                    "Intel Core i7 13700HX": "HX",
+                    "Intel Core i7 13650HX": "HX",
+                    "Intel Core i7 13620H": "H",
                 },
                 "10 series": {
-                    "Intel Core i7 10875H": "H",
                     "Intel Core i7 10870H": "H",
+                    "Intel Core i7 10875H": "H",
                     "Intel Core i7 10750H": "H",
                     "Intel Core i7 10610U": "U",
                 },
-                "9 series": {
-                    "Intel Core i7 9750H": "H",
+                "14 series": {
+                    "Intel Core i7 14650HX": "HX",
+                    "Intel Core i7 14700HX": "HX",
                 },
                 "12 series": {
+                    "Intel Core i7 12800HX": "HX",
                     "Intel Core i7 12800H": "H",
                     "Intel Core i7 12700H": "H",
                     "Intel Core i7 12650H": "H",
                     "Intel Core i7 1260P": "P",
-                    "Intel Core i7 12800HX": "HX",
+                },
+                "9 series": {
+                    "Intel Core i7 9750H": "H",
+                },
+                "11 series": {
+                    "Intel Core i7 11800H": "H",
+                    "Intel Core i7 1165G7": "G",
+                    "Intel Core i7 11850H": "H",
+                    "Intel Core i7 1185G7": "G",
                 },
             },
             "core i9": {
                 "13 series": {
+                    "Intel Core i9 13905H": "H",
                     "Intel Core i9 13900HK": "HK",
                     "Intel Core i9 13950HX": "HX",
-                    "Intel Core i9 13905H": "H",
                     "Intel Core i9 13900HX": "HX",
                     "Intel Core i9 13900H": "H",
                     "Intel Core i9 13980HX": "HX",
                 },
+                "12 series": {
+                    "Intel Core i9 12900HX": "HX",
+                    "Intel Core i9 12900HK": "HK",
+                    "Intel Core i9 12900H": "H",
+                    "Intel Core i9 12950HX": "HX",
+                },
                 "14 series": {
                     "Intel Core i9 14900HX": "HX",
                 },
-                "11 series": {
-                    "Intel Core i9 11900H": "H",
-                    "Intel Core i9 11980HK": "HK",
+                "10 series": {
+                    "Intel Core i9 10980HK": "HK",
                 },
-                "12 series": {
-                    "Intel Core i9 12950HX": "HX",
-                    "Intel Core i9 12900H": "H",
-                    "Intel Core i9 12900HX": "HX",
-                    "Intel Core i9 12900HK": "HK",
+                "11 series": {
+                    "Intel Core i9 11980HK": "HK",
+                    "Intel Core i9 11900H": "H",
                 },
                 "9 series": {
                     "Intel Core i9 9980HK": "HK",
-                },
-                "10 series": {
-                    "Intel Core i9 10980HK": "HK",
                 },
             },
             "core ultra 7": {
@@ -179,24 +180,24 @@
             "ryzen 7": {
                 "7 series": {
                     "AMD Ryzen 7 7840HS": "hs",
-                    "AMD Ryzen 7 7735HS": "hs",
                     "AMD Ryzen 7 7745HX": "hx",
                     "AMD Ryzen 7 Pro 7840HS": "prohs",
+                    "AMD Ryzen 7 7735HS": "hs",
+                },
+                "5 series": {
+                    "AMD Ryzen 7 5800H": "h",
+                },
+                "4 series": {
+                    "AMD Ryzen 7 4800HS": "hs",
+                    "AMD Ryzen 7 4800H": "h",
                 },
                 "8 series": {
                     "AMD Ryzen 7 8845HS": "hs",
                     "AMD Ryzen 7 8845H": "h",
                 },
-                "5 series": {
-                    "AMD Ryzen 7 5800H": "h",
-                },
                 "6 series": {
                     "AMD Ryzen 7 Pro 6850H": "proh",
                     "AMD Ryzen 7 6800H": "h",
-                },
-                "4 series": {
-                    "AMD Ryzen 7 4800H": "h",
-                    "AMD Ryzen 7 4800HS": "hs",
                 },
             },
             "ryzen 9": {
@@ -204,15 +205,15 @@
                     "AMD Ryzen 9 5900HX": "hx",
                     "AMD Ryzen 9 5900HS": "hs",
                 },
+                "7 series": {
+                    "AMD Ryzen 9 7940HS": "hs",
+                    "AMD Ryzen 9 7940HX": "hx",
+                    "AMD Ryzen 9 Pro 7940HS": "prohs",
+                    "AMD Ryzen 9 7945HX": "hx",
+                },
                 "6 series": {
                     "AMD Ryzen 9 6900HS": "hs",
                     "AMD Ryzen 9 6900HX": "hx",
-                },
-                "7 series": {
-                    "AMD Ryzen 9 7945HX": "hx",
-                    "AMD Ryzen 9 7940HX": "hx",
-                    "AMD Ryzen 9 Pro 7940HS": "prohs",
-                    "AMD Ryzen 9 7940HS": "hs",
                 },
                 "8 series": {
                     "AMD Ryzen 9 8945HS": "hs",
@@ -224,11 +225,11 @@
             "ryzen ai 5": {},
             "ryzen ai 7": {},
             "ryzen ai 9": {
-                "370 series": {
-                    "AMD Ryzen AI 9 HX 370": "hx",
-                },
                 "365 series": {
                     "AMD Ryzen AI 9 365": "",
+                },
+                "370 series": {
+                    "AMD Ryzen AI 9 HX 370": "hx",
                 },
             },
         },

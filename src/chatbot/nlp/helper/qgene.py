@@ -1,28 +1,26 @@
-import sys
 import os
 from pathlib import Path
 import pandas as pd
 import re
 import json5
 import random
+from nlp.helper.qbuilder import assembler
 
-project_root = Path(__file__).resolve().parents[1]
-sys.path.append(str(project_root))
-from nlp.qbuilder import assembler
-
+root = Path(__file__).resolve().parents[2]
 
 paths = {
-    "processed": os.path.abspath(f"{project_root}/data/storage/processed"),
-    "qfragments": os.path.abspath(f"{project_root}/intents/qfragments.json"),
-    "questions": os.path.abspath(f"{project_root}/intents/questions.csv"),
+    "processed": os.path.abspath(f"{root}/data/storage/processed"),
+    "odata": os.path.abspath(f"{root}/data/storage/processed/final_cleaning.csv"),
+    "qfragments": os.path.abspath(f"{root}/intents/qfragments.json"),
+    "intents": os.path.abspath(f"{root}/intents"),
+    "questions": os.path.abspath(f"{root}/intents/questions.csv"),
 }
 
-if "qfragments.json" not in os.listdir(f"{project_root}/intents"):
+if not os.path.exists(paths["qfragments"]):
     assembler()
 
-spec = pd.read_csv(os.path.join(paths["processed"], "final_cleaning.csv"))
-
-txt = json5.load(open(paths["qfragments"], "r", encoding="utf-8"))
+odata = pd.read_csv(paths["odata"])
+qfrag = json5.load(open(paths["qfragments"], "r", encoding="utf-8"))
 
 def intel_cpu_generation():
     """
@@ -42,10 +40,10 @@ def intel_cpu_generation():
     :return: A string describing an Intel processor
     """
 
-    intel_modifier = list(txt["cpu"]["intel"].keys())
+    intel_modifier = list(qfrag["cpu"]["intel"].keys())
     intel_generation = []
     for brand_modifier in intel_modifier:
-        intel_generation += list(txt["cpu"]["intel"][brand_modifier].keys())
+        intel_generation += list(qfrag["cpu"]["intel"][brand_modifier].keys())
     intel_generation = list(set(intel_generation))
 
     for gen in intel_generation:
@@ -55,8 +53,7 @@ def intel_cpu_generation():
             intel_generation.append(text_1)
             intel_generation.append(text_2)
 
-    pattern_3digits = re.compile(r'^\d{3} series$', re.IGNORECASE)
-
+    pattern_3digits = re.compile(r"^\d{3} series$", re.IGNORECASE)
     mod = random.choice(intel_modifier)
     if "ultra" in mod.lower():
         allowed_gen = [g for g in intel_generation if pattern_3digits.match(g)]
@@ -75,8 +72,9 @@ def intel_cpu_generation():
         return f"intel {mod} {gen}".strip()
     else:
         return random.choice(
-            spec[spec["CPU"].str.contains("Intel", case=False)]["CPU"].unique()
+            odata[odata["CPU"].str.contains("Intel", case=False)]["CPU"].unique()
         ).lower()
+
 
 def amd_cpu_generation():
     """
@@ -93,10 +91,10 @@ def amd_cpu_generation():
 
     :return: A string describing an AMD processor
     """
-    amd = list(txt["cpu"]["amd"].keys())
+    amd = list(qfrag["cpu"]["amd"].keys())
     amd_generation = []
     for brand_modifier in amd:
-        amd_generation += list(txt["cpu"]["amd"][brand_modifier].keys())
+        amd_generation += list(qfrag["cpu"]["amd"][brand_modifier].keys())
     amd_generation = list(set(amd_generation))
 
     to_remove = []
@@ -111,7 +109,7 @@ def amd_cpu_generation():
     for gen in to_remove:
         amd_generation.remove(gen)
 
-    pattern_3digits = re.compile(r'^\d{3} series$', re.IGNORECASE)
+    pattern_3digits = re.compile(r"^\d{3} series$", re.IGNORECASE)
 
     mod = random.choice(amd)
     if "ultra" in mod.lower():
@@ -126,13 +124,14 @@ def amd_cpu_generation():
     if choice == 1:
         return mod
     elif choice == 2:
-        return (f"{mod} {gen}".strip())
+        return f"{mod} {gen}".strip()
     elif choice == 3:
-        return (f"amd {mod} {gen}".strip())
+        return f"amd {mod} {gen}".strip()
     else:
         return random.choice(
-            spec[spec["CPU"].str.contains("AMD", case=False)]["CPU"].unique()
+            odata[odata["CPU"].str.contains("AMD", case=False)]["CPU"].unique()
         ).lower()
+
 
 def cpu_generation():
     """
@@ -147,6 +146,7 @@ def cpu_generation():
     components = [intel_cpu_generation(), amd_cpu_generation()]
     return random.choice(components)
 
+
 def gpu_generation():
     """
     Generates a random GPU description string.
@@ -157,7 +157,7 @@ def gpu_generation():
 
     :return: A string describing a GPU
     """
-    gpu_text = spec["GPU"].unique().tolist()
+    gpu_text = odata["GPU"].unique().tolist()
     for gpu in gpu_text.copy():
         text_1 = re.sub(r"\s+", " ", gpu.replace("Nvidia GeForce", "")).strip()
         text_2 = re.sub(r"\s+", " ", gpu.replace("AMD Radeon", "")).strip()
@@ -189,13 +189,14 @@ def ram_generation():
     :return: A string describing the RAM of a laptop
     """
     ram_lst = []
-    for num in spec["RAM"].unique():
+    for num in odata["RAM"].unique():
         text_1 = f"{num}GB RAM".strip()
         text_2 = f"RAM {num}GB".strip()
         text_3 = f"{num}GB".strip()
         for text in [text_1, text_2, text_3]:
             ram_lst.append(text)
     return random.choice(ram_lst).lower()
+
 
 def screen_generation():
     """
@@ -210,7 +211,7 @@ def screen_generation():
     :return: A string describing a screen resolution
     """
 
-    screen_list = list(txt["resolution"].keys())
+    screen_list = list(qfrag["resolution"].keys())
     sreen_description = [
         "display",
         "resolution",
@@ -219,14 +220,15 @@ def screen_generation():
         "screen resolution",
         "monitor resolution",
     ]
-    for screen in list(txt["resolution"].keys()):
-        for option in txt["resolution"][screen]:
+    for screen in list(qfrag["resolution"].keys()):
+        for option in qfrag["resolution"][screen]:
             text_1 = f"{option} {random.choice(sreen_description)}"
             text_2 = f"{random.choice(sreen_description)} {option}"
             for text in [text_1, text_2]:
                 screen_list.append(text)
     random.shuffle(screen_list)
     return random.choice(screen_list).lower()
+
 
 def rr_generation():
     """
@@ -237,7 +239,7 @@ def rr_generation():
 
     :return: A string describing a refresh rate in hertz
     """
-    screen_list = spec["REFRESH RATE"].unique()
+    screen_list = odata["REFRESH RATE"].unique()
     return f"{random.choice(screen_list)}hz"
 
 
@@ -262,6 +264,7 @@ def format_money(unit, amount=None, known=True):
         else:
             return "unknown"
 
+
 def price_generation():
     """
     Generates a random sentence related to pricing using predefined templates.
@@ -278,7 +281,7 @@ def price_generation():
     :return: A string with money-related placeholders replaced by formatted values.
     """
 
-    money_sentence = random.choice(txt["money"])
+    money_sentence = random.choice(qfrag["money"])
     money_unit = random.choice(["USD", "dollars", "$", "unknown"])
     method = random.choice(["unknown", "known", "known"])
 
@@ -318,7 +321,12 @@ def price_generation():
     return money_sentence
 
 
-def generate_text(num: int = 100, choice: str = "all", save: bool = False, filename: str = "generated.csv") -> pd.DataFrame:
+def question_generation(
+    num: int = 100,
+    choice: str = "all",
+    save: bool = False,
+    filename: str = "generated.csv",
+) -> pd.DataFrame:
     """
     Generates a given number of random questions based on the templates, sub-questions, and use-cases defined in the labels.json file.
 
@@ -335,19 +343,34 @@ def generate_text(num: int = 100, choice: str = "all", save: bool = False, filen
     """
     generated_questions = []
     for _ in range(num):
-        template = random.choice(txt["templates"])
-        sub_template = random.choice(txt["sub questions"])
-        use_case = random.choice(txt["use case"])
-        sub_brand = random.choice(txt["sub brand"])
-        brand = random.choice(spec["BRAND"].unique()).lower()
+        template = random.choice(qfrag["templates"])
+        sub_template = random.choice(qfrag["sub questions"])
+        use_case = random.choice(qfrag["use case"])
+        sub_brand = random.choice(qfrag["sub brand"])
+        brand = random.choice(odata["BRAND"].unique()).lower()
         price = price_generation()
 
         connectors = [
-            "and", ",", ";", "&", "with", "as well as",
-            "plus", "together with", "along with", "as well",
-            "in addition to", "besides", "not to mention",
-            "accompanied by", "coupled with", "combined with",
-            "joined by", "alongside", "together alongside", "next to"
+            "and",
+            ",",
+            ";",
+            "&",
+            "with",
+            "as well as",
+            "plus",
+            "together with",
+            "along with",
+            "as well",
+            "in addition to",
+            "besides",
+            "not to mention",
+            "accompanied by",
+            "coupled with",
+            "combined with",
+            "joined by",
+            "alongside",
+            "together alongside",
+            "next to",
         ]
 
         components = {
@@ -389,7 +412,14 @@ def generate_text(num: int = 100, choice: str = "all", save: bool = False, filen
             connectors * (len(component_text) // len(connectors) + 1),
             len(component_text) - 1,
         )
-        component = " ".join(word + " " + connector for word, connector in zip(component_text[:-1], selected_connectors))+ " " + component_text[-1]
+        component = (
+            " ".join(
+                word + " " + connector
+                for word, connector in zip(component_text[:-1], selected_connectors)
+            )
+            + " "
+            + component_text[-1]
+        )
         brand_sentence = sub_brand.replace("[brand]", brand)
 
         question_entry = {}
@@ -403,23 +433,20 @@ def generate_text(num: int = 100, choice: str = "all", save: bool = False, filen
         elif choice == "s2":
             sentence_2 = f"{sub_template.replace('[component]', component).replace('[use_case]', use_case).replace('[sub_brand]', brand_sentence)} {price}."
             question_entry = {"question": sentence_2}
-        
+
         brand_entry = {"brand": brand}
         price_entry = {"price": price}
 
         entry_list = [valid_components, brand_entry, price_entry]
         for entry in entry_list:
             question_entry.update(entry)
-
         generated_questions.append(question_entry)
-
     df = pd.DataFrame(generated_questions)
-    
     if save:
         if filename:
-            df.to_csv(os.path.join(paths["processed"], filename), index=False, encoding="utf-8")
+            df.to_csv(
+                os.path.join(paths["intents"], filename), index=False, encoding="utf-8"
+            )
         else:
             df.to_csv(paths["questions"], index=False, encoding="utf-8")
-            
     return df
-

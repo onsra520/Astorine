@@ -10,7 +10,7 @@ from torch.utils.data import TensorDataset, DataLoader
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 from utils.classify_columns import load_features
-from nlp.Evaluator import HybridModel
+from nlp.evaluator import hybridmodel
 
 base_dir = Path(__file__).resolve().parents[1]
 
@@ -63,7 +63,7 @@ y_tensor = torch.tensor(y_data, dtype=torch.float)
 dataset_tensor = TensorDataset(numerical_tensor, categorical_tensor, y_tensor)
 dataloader = DataLoader(dataset_tensor, batch_size=32, shuffle=True)
 
-model = HybridModel(categorical_columns, numerical_columns, embedding_dim=8)
+model = hybridmodel(categorical_columns, numerical_columns, embedding_dim=8)
 optimizer = optim.Adam(model.parameters(), lr=0.01)
 criterion = nn.MSELoss()
 
@@ -96,7 +96,7 @@ def model_train():
             print("Early stopping: loss < 0.01")
             break
 
-    torch.save(model.state_dict(), os.path.join(paths["models"], "laptop_evaluator.pth"))
+    torch.save(model.state_dict(), os.path.join(paths["models"], "compararison.pth"))
 
 if __name__ == "__main__":
     model_train()

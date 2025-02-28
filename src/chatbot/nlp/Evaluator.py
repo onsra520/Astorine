@@ -9,7 +9,7 @@ paths = {
     "scalers": os.path.abspath(f"{project_root}/models/scalers"),   
 }
 
-class HybridModel(nn.Module):
+class hybridmodel(nn.Module):
     def __init__(self, categorical_columns: list, numerical_columns: list, embedding_dim=8):
         """
         Constructor for HybridModel.

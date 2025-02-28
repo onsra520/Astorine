@@ -1,0 +1,22 @@
+{
+    "default": {
+        brand: 90,
+        gpu: 90,
+        cpu: 90,
+        ram: 90,
+        resolution: 90,
+        "refresh rate": 90,
+        "display type": 90,
+        "screen size": 90,
+    },
+    threshold_1: {
+        brand: 95,
+        gpu: 77,
+        cpu: 77,
+        ram: 90,
+        resolution: 90,
+        "refresh rate": 90,
+        "display type": 90,
+        "screen size": 95,
+    },
+}
