@@ -8,7 +8,7 @@ import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
-from src.chatbot.utils.ccol import load_features
+from utils.ccol import load_features
 from nlp.evaluator import hybridmodel
 
 project_root = Path(__file__).resolve().parents[1]
@@ -158,7 +158,6 @@ class Hybrid_Training:
             train_loss = running_loss / len(self.train_dataset)
             print(f"Epoch {epoch+1}/{self.num_epochs}, Training Loss: {train_loss:.4f}")
 
-            # Validation phase
             self.model.eval()
             val_running_loss = 0.0
             with torch.no_grad():
@@ -170,7 +169,6 @@ class Hybrid_Training:
             val_loss = val_running_loss / len(self.val_dataset)
             print(f"Epoch {epoch+1}/{self.num_epochs}, Validation Loss: {val_loss:.4f}")
 
-            # Early stopping logic
             if val_loss < best_val_loss - self.min_delta:
                 best_val_loss = val_loss
                 patience_counter = 0

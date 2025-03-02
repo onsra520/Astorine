@@ -7,18 +7,20 @@ import json5
 root = Path(__file__).resolve().parents[2]
 sys.path.append(str(root))
 from data.pipelines.cdata import data_cleaning
+from nlp.helper.ncomp import *
 
 paths = {
     "processed": os.path.abspath(f"{root}/data/storage/processed"),
     "odata": os.path.abspath(f"{root}/data/storage/processed/final_cleaning.csv"),
+    "intents": os.path.abspath(f"{root}/intents"),
     "qfragments": os.path.abspath(f"{root}/intents/qfragments.json"),
     "questions": os.path.abspath(f"{root}/intents/questions.json"),
 }
 
+os.makedirs(paths["intents"], exist_ok=True)
 if not os.path.exists(paths["odata"]):
     print("Data not found. Running data cleaning pipeline...")
     odata = data_cleaning()
-
 odata, data = pd.read_csv(paths["odata"]), {}
 
 data["resolution"] = {
@@ -26,13 +28,20 @@ data["resolution"] = {
     "1920 x 1200": ["1920 x 1200", "WUXGA", "16:10 HD+", "HD+ (16:10)"],
     "2560 x 1600": ["2560 x 1600", "WQXGA", "Quad Extended (16:10)", "Retina-like"],
     "2560 x 1440": ["2560 x 1440", "QHD", "Quad HD", "2K", "WQHD"],
-    "1920 x 1080": ["1920 x 1080", "FHD", "Full HD",  "1080p"],
+    "1920 x 1080": ["1920 x 1080", "FHD", "Full HD", "1080p"],
     "3840 x 2160": ["3840 x 2160", "4K UHD", "4K", "UHD", "Ultra HD", "2160p"],
     "2880 x 1800": ["2880 x 1800", "Retina 15", "QHD+ (16:10)"],
     "3840 x 2400": ["3840 x 2400", "WQUXGA", "16:10 4K+"],
     "3200 x 2000": ["3200 x 2000", "QHD+", "3K2K", "WQXGA+ (16:10)"],
     "2880 x 1620": ["2880 x 1620", "QHD+ 16:9", "16:9 QHD+", "3K2K (16:9)"],
-    "3456 x 2160": ["3456 x 2160", "Retina 16", "16-inch Retina", "3,5k", "3K5", "3.5K"],
+    "3456 x 2160": [
+        "3456 x 2160",
+        "Retina 16",
+        "16-inch Retina",
+        "3,5k",
+        "3K5",
+        "3.5K",
+    ],
     "2400 x 1600": ["2400 x 1600", "QXGA+", "3:2 display"],
 }
 
@@ -72,7 +81,10 @@ for intel_cpu in intel:
     for brand_modifier in data["cpu"]["intel"]:
         sku_numeric_digits = "".join(filter(str.isdigit, intel_cpu.split(" ")[-1]))
         suffix = "".join(filter(str.isalpha, intel_cpu.split(" ")[-1]))
-        if brand_modifier not in ["core ultra 7", "core ultra 9"] and brand_modifier in intel_cpu.lower():
+        if (
+            brand_modifier not in ["core ultra 7", "core ultra 9"]
+            and brand_modifier in intel_cpu.lower()
+        ):
             if sku_numeric_digits.startswith("1"):
                 generation = f"{sku_numeric_digits[0:2]} series"
             else:
@@ -81,7 +93,10 @@ for intel_cpu in intel:
                 data["cpu"]["intel"][brand_modifier][generation] = {}
             data["cpu"]["intel"][brand_modifier][generation][intel_cpu] = suffix
 
-        elif brand_modifier in ["core ultra 7", "core ultra 9"] and brand_modifier in intel_cpu.lower():
+        elif (
+            brand_modifier in ["core ultra 7", "core ultra 9"]
+            and brand_modifier in intel_cpu.lower()
+        ):
             generation = f"{sku_numeric_digits} series"
             if generation not in data["cpu"]["intel"][brand_modifier]:
                 data["cpu"]["intel"][brand_modifier][generation] = {}
@@ -505,6 +520,26 @@ use_case = [
     "suitable for running high-performance data analytics software",
     "ideal for running complex data mining algorithms",
     "designed for high-performance",
+    "ideal for educational purposes and e-learning",
+    "optimized for professional video conferencing and remote work",
+    "designed for telemedicine and healthcare consultations",
+    "perfect for financial trading and market analysis",
+    "optimized for digital marketing and social media management",
+    "ideal for project management and team collaboration",
+    "designed for music production and sound engineering",
+    "capable of running architectural design and CAD software",
+    "optimized for virtual reality content creation and simulation",
+    "ideal for legal research and case management",
+    "suitable for scientific research in biology and chemistry",
+    "designed for interactive classroom learning and teaching",
+    "optimized for customer relationship management systems",
+    "ideal for cybersecurity monitoring and network analysis",
+    "designed for professional photography and high-resolution image editing",
+    "capable of handling simulation software for mechanical engineering",
+    "ideal for digital art creation, animation, and graphic design",
+    "optimized for remote work, video conferencing, and online collaboration",
+    "designed for office productivity, business applications, and document processing",
+    "ideal for web development, design, and software testing"
 ]
 
 sub_brand = [
@@ -590,15 +625,283 @@ money_terms = [
     "The maximum amount I can spend is [money].",
 ]
 
-def assembler():
+bias_mapping = {
+    "gpu": {
+        "gaming": 2.0,
+        "3D simulations": 1.8,
+        "high-performance": 1.5,
+        "video editing": 1.7,
+        "CAD": 1.3,
+        "machine learning": 1.2,
+        "animation": 1.7,
+        "graphic design": 1.0,
+        "virtual reality": 1.8,
+        "professional rendering": 1.5,
+        "augmented reality": 1.6,
+        "crypto mining": 1.4,
+        "real-time ray tracing": 1.8,
+        "GPU accelerated rendering": 1.5,
+        "streaming": 1.4,
+        "deep learning": 1.4,
+        "scientific visualization": 1.3,
+        "virtual desktop": 1.2,
+        "video encoding": 1.3,
+        "VR development": 1.6,
+        "AI processing": 1.3,
+        "computational fluid dynamics": 1.3,
+        "simulation acceleration": 1.4,
+        "game development": 1.5,
+        "3D modeling": 1.4,
+        "shader processing": 1.3,
+        "GPGPU": 1.5,
+        "parallel processing": 1.5,
+        "hardware acceleration": 1.5,
+        "offline ray tracing": 1.4,
+        "visual effects": 1.6,
+        "post-production": 1.4,
+        "real-time graphics": 1.5,
+        "render farm": 1.3,
+    },
+    "cpu": {
+        "gaming": 1.0,
+        "3D simulations": 1.2,
+        "high-performance": 1.5,
+        "software development": 1.0,
+        "data analysis": 1.1,
+        "rendering": 1.5,
+        "multitasking": 1.4,
+        "office work": 0.5,
+        "virtualization": 1.3,
+        "scientific computing": 1.2,
+        "video editing": 1.3,
+        "audio processing": 1.0,
+        "database management": 1.0,
+        "computational physics": 1.2,
+        "compilation": 1.0,
+        "batch processing": 1.2,
+        "parallel computing": 1.3,
+        "algorithmic trading": 1.1,
+        "encryption": 1.2,
+        "decryption": 1.2,
+        "server applications": 1.3,
+        "financial modeling": 1.2,
+        "data mining": 1.3,
+        "analytics": 1.1,
+        "spreadsheet processing": 0.8,
+        "web hosting": 1.0,
+        "networking tasks": 1.0,
+        "simulation modeling": 1.2,
+        "real-time processing": 1.3,
+        "compression": 1.1,
+        "multimedia processing": 1.2,
+        "script execution": 1.0,
+        "data logging": 1.0,
+    },
+    "ram": {
+        "gaming": 1.0,
+        "video editing": 1.5,
+        "3D simulations": 1.3,
+        "multitasking": 1.5,
+        "rendering": 1.5,
+        "CAD": 1.0,
+        "animation": 1.2,
+        "machine learning": 1.2,
+        "virtual machines": 1.5,
+        "large datasets": 1.2,
+        "software development": 1.0,
+        "content creation": 1.3,
+        "multimedia": 1.2,
+        "streaming": 1.1,
+        "server applications": 1.0,
+        "big data processing": 1.5,
+        "memory caching": 1.3,
+        "virtualized environments": 1.4,
+        "real-time analytics": 1.3,
+        "cloud computing": 1.2,
+        "data streaming": 1.2,
+        "augmented reality applications": 1.3,
+        "video streaming": 1.2,
+        "simulation of physics": 1.3,
+        "multimedia editing": 1.3,
+        "virtual reality editing": 1.3,
+        "running multiple apps": 1.4,
+        "browser tab management": 1.0,
+        "enterprise applications": 1.2,
+        "software emulation": 1.1,
+        "data virtualization": 1.2,
+        "concurrent processes": 1.3,
+        "memory intensive tasks": 1.4,
+        "high-speed data access": 1.3,
+        "dynamic resource allocation": 1.2,
+    },
+    "refresh rate": {
+        "gaming": 2.0,
+        "video editing": 1.0,
+        "animation": 1.0,
+        "3D simulations": 1.0,
+        "creative": 1.0,
+        "virtual reality": 1.8,
+        "sports": 1.0,
+        "motion clarity": 1.5,
+        "fast-paced action": 1.2,
+        "smooth scrolling": 1.0,
+        "eSports": 1.8,
+        "frame consistency": 1.2,
+        "dynamic refresh": 1.0,
+        "low latency": 1.5,
+        "ultra-fast response": 1.2,
+        "high frame rate": 2.0,
+        "video fluidity": 1.0,
+        "motion smoothing": 1.3,
+        "display responsiveness": 1.2,
+        "gameplay fluidity": 1.8,
+        "reduced ghosting": 1.0,
+        "adaptive sync": 1.7,
+        "stutter-free": 1.0,
+        "real-time feedback": 1.1,
+        "frame interpolation": 1.3,
+        "ultra-smooth": 1.4,
+        "high refresh performance": 1.5,
+        "cinematic fluidity": 1.1,
+        "rapid update": 1.0,
+    },
+    "resolution": {
+        "design": 1.5,
+        "creative": 1.5,
+        "photo editing": 2.0,
+        "video editing": 1.8,
+        "graphic design": 1.5,
+        "4k": 2.0,
+        "ultra-high-definition": 1.8,
+        "retina": 1.5,
+        "digital art": 1.7,
+        "CAD": 1.2,
+        "high-definition": 1.5,
+        "8k": 2.2,
+        "full hd": 1.4,
+        "high pixel density": 1.6,
+        "QHD": 1.7,
+        "WQHD": 1.7,
+        "Super Retina": 1.6,
+        "2k": 1.5,
+        "HD+": 1.3,
+        "pixel perfect": 1.8,
+        "high clarity": 1.6,
+        "crisp display": 1.4,
+        "vivid resolution": 1.4,
+        "sharp detail": 1.5,
+        "visual fidelity": 1.6,
+        "ultra-sharp": 1.5,
+        "true color": 1.5,
+        "precision imaging": 1.4,
+        "retina quality": 1.5,
+        "maximum resolution": 1.5,
+        "dynamic resolution": 1.3,
+        "image clarity": 1.4,
+        "high-density pixels": 1.6,
+        "optimized resolution": 1.3,
+    },
+    "display type": {
+        "IPS": 1.5,
+        "OLED": 1.8,
+        "color-accurate": 2.0,
+        "wide color gamut": 2.0,
+        "touchscreen": 1.0,
+        "matte": 1.2,
+        "glossy": 1.0,
+        "professional grading": 2.5,
+        "HDR": 2.0,
+        "anti-glare": 1.5,
+        "LED-backlit": 1.2,
+        "QLED": 1.8,
+        "microLED": 1.8,
+        "quantum dot": 1.8,
+        "flicker-free": 1.3,
+        "energy efficient": 1.2,
+        "flexible display": 1.0,
+        "curved": 1.2,
+        "flat panel": 1.0,
+        "dual-mode": 1.1,
+        "high brightness": 1.4,
+        "color uniformity": 1.5,
+        "smooth gradient": 1.3,
+        "adaptive brightness": 1.2,
+        "local dimming": 1.4,
+        "full-array": 1.3,
+        "edge-lit": 1.2,
+        "IPS-level": 1.4,
+        "sRGB standard": 1.5,
+        "HDR10": 2.0,
+        "Dolby Vision": 2.0,
+        "ambient light sensor": 1.0,
+    },
+    "screen size": {
+        "design": 1.5,
+        "creative": 1.5,
+        "large": 1.5,
+        "ultra-wide": 2.0,
+        "portable": 0.8,
+        "multitasking": 1.5,
+        "video editing": 1.5,
+        "immersive experience": 1.3,
+        "split-screen": 1.0,
+        "widescreen": 1.5,
+        "multi-monitor": 1.3,
+        "extra large": 1.8,
+        "cinematic": 1.6,
+        "compact": 0.8,
+        "full screen": 1.3,
+        "bezel-less": 1.4,
+        "borderless": 1.4,
+        "ultra-portable": 0.9,
+        "desktop replacement": 1.6,
+        "multi-display": 1.3,
+        "wide aspect": 1.4,
+        "panoramic": 1.5,
+        "immersive widescreen": 1.6,
+        "large format": 1.5,
+        "high-resolution screen": 1.4,
+        "expanded view": 1.3,
+        "maximized display": 1.2,
+        "enterprise monitor": 1.1,
+        "ultra-large": 1.7,
+        "portable compact": 0.8,
+        "gaming monitor": 1.5,
+        "adjustable size": 1.0,
+        "dynamic screen": 1.0,
+        "versatile display": 1.2,
+    },
+}
+
+
+def add_bias_mapping() -> dict:
+    return {
+        "gpu": {item: 2 for item in glst()},
+        "cpu": {item: 2 for item in clst()},
+        "ram": {item: 2 for item in rlst()},
+        "refresh rate": {item: 2 for item in rrlst()},
+        "resolution": {item: 2 for item in srlst()},
+        "display type": {item: 2 for item in dtlst()},
+        "screen size": {item: 2 for item in sslst()},
+    }
+
+
+for key, new_mapping in add_bias_mapping().items():
+    if key in bias_mapping:
+        bias_mapping[key].update(new_mapping)
+    else:
+        bias_mapping[key] = new_mapping
+
+
+def assembler(save: bool = True) -> dict:
     """
-    Assembles data from various categories into a dictionary and writes it 
+    Assembles data from various categories into a dictionary and writes it
     to a JSON file.
 
-    This function populates the `data` dictionary with predefined templates, 
-    use cases, sub questions, sub brands, and money terms. It then writes 
-    this data into a JSON file specified by `paths["qfragments"]`, ensuring 
-    the content is formatted with UTF-8 encoding and indented for 
+    This function populates the `data` dictionary with predefined templates,
+    use cases, sub questions, sub brands, and money terms. It then writes
+    this data into a JSON file specified by `paths["qfragments"]`, ensuring
+    the content is formatted with UTF-8 encoding and indented for
     readability.
     """
     data["templates"] = templates
@@ -606,8 +909,9 @@ def assembler():
     data["sub questions"] = sub_templates
     data["sub brand"] = sub_brand
     data["money"] = money_terms
-    with open(paths["qfragments"], "w", encoding="utf-8") as f:
-        json5.dump(data, f, ensure_ascii=False, indent=4)
+    data["bias"] = bias_mapping
+    if save:
+        with open(paths["qfragments"], "w", encoding="utf-8") as f:
+            json5.dump(data, f, ensure_ascii=False, indent=4)
+    return data
 
-if __name__ == "__main__":
-    assembler()

@@ -320,7 +320,6 @@ def price_generation():
 
     return money_sentence
 
-
 def question_generation(
     num: int = 100,
     choice: str = "all",
