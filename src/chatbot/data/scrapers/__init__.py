@@ -1,24 +1,18 @@
 from pathlib import Path
+import os
 
-def directory(default="chatbot") -> Path:
-    """
-    This function returns the path to the 'chatbot' directory, regardless of how many levels up or down it is.
+def pathtree(nrf: str = "chatbot") -> dict:
+    cur_dir = os.path.dirname(__file__)
+    rdir = Path(cur_dir.split(nrf)[0]) / nrf
+    ftree = {}
+    for path in rdir.rglob("*"):
+        if path.is_dir() and path.name == "__pycache__":
+            continue
+        if path.is_dir():
+            key = path.name
+            if key in ftree:
+                parent_name = path.parent.name
+                key = f"{parent_name}.{path.name}"
+            ftree[key] = str(path.resolve())
+    return ftree
 
-    Args:
-        default (str): The name of the default directory to return. Defaults to 'chatbot'
-
-    Returns:
-        Path: The path to the default directory
-    """
-    current_path = Path(__file__).resolve()
-
-    for parent in current_path.parents:
-        if parent.name.lower() == default.lower():
-            return parent
-    default_path = Path.cwd() / default
-    if not default_path.exists():
-        default_path.mkdir(parents=True, exist_ok=True)
-    return default_path
-
-if __name__ == "__main__":
-    directory()
