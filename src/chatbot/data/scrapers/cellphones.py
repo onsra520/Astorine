@@ -1,5 +1,6 @@
 import os, sys
 from pathlib import Path
+
 sys.path.append(str(Path().resolve()))
 import requests
 import time, re
@@ -15,6 +16,13 @@ from src.chatbot import pathtree
 os.makedirs(
     os.path.join(pathtree("chatbot").get("images"), "cellphones"), exist_ok=True
 )
+
+brands = ["asus", "acer", "dell", "lenovo", "hp", "msi", "lg", "gigabyte", "samsung"]
+for brand in brands:
+    os.makedirs(
+        os.path.join(pathtree("chatbot").get("cellphones"), brand),
+        exist_ok=True,
+    )
 
 class crawl_image:
     browser = "chrome"
@@ -47,7 +55,6 @@ class crawl_image:
             self.get_url(url=self.url)
         if get_img:
             self.get_img(url=self.url)
-
         self.browser.quit()
 
     def close_popup(self):
@@ -147,12 +154,12 @@ class crawl_image:
         else:
             url_lst = pd.read_csv(self.url_save_dir)
         total_step = len(url_lst[url_lst["get image"] == False])
-        img_url_list = []
         with tqdm(total=total_step, desc="Crawling image") as main_bar:
             for _, index in url_lst.iterrows():
                 base_name = index["name"]
-                if not index["get image"]:
-                    time.sleep(1.5)
+                if not index["get image"] and "Zenbook DUO".lower() not in base_name.lower():
+                    time.sleep(1)
+                    img_url_list = []
                     self.browser.get(index["link"])
                     page = self.browser.page_source
                     src = BeautifulSoup(page, "lxml")
@@ -170,17 +177,15 @@ class crawl_image:
                                 and "text" in tag_filter["href"]
                             ):
                                 img_url_list.append(tag_filter["href"])
-
-                for num, img_url in enumerate(img_url_list):
-                    name_file = f"{base_name} {num}.jpg"
-                    save_dir = os.path.join(self.img_save_dir, name_file)
-                    self.decode_image(img_url=img_url, save_dir=save_dir)
-
-                url_lst.at[_, "get image"] = True
-                url_lst.to_csv(self.url_save_dir, index=False)
-
-                main_bar.update(1)
-
+                    for num, img_url in enumerate(img_url_list):
+                        name_file = f"{base_name} {num}.jpg"
+                        index_brand = base_name.lower().split(" ")[1]
+                        save_dir = os.path.join(self.img_save_dir, index_brand, name_file)                           
+                        self.decode_image(img_url=img_url, save_dir=save_dir)
+                        
+                    url_lst.at[_, "get image"] = True
+                    url_lst.to_csv(self.url_save_dir, index=False)
+                    main_bar.update(1)
 
 if __name__ == "__main__":
     _ = crawl_image(get_url=True, get_img=True)
