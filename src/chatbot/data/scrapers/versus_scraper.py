@@ -1,46 +1,51 @@
-import os
-import time
-import json5
-import requests
-import pandas as pd
+import os, sys
 from pathlib import Path
+
+sys.path.append(str(Path().resolve()))
+
+import requests
+import time
 from bs4 import BeautifulSoup
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from seleniumbase import Driver
+import pandas as pd
+from src.chatbot import pathtree
 
-base_dir = Path(__file__).resolve().parents[2]
-paths = {
-    "raw": os.path.abspath(f"{base_dir}/data/storage/raw"),
-    "images": os.path.abspath(f"{base_dir}/data/storage/images"),
-    "config": os.path.abspath(f"{base_dir}/config/config.json"),
+folders = {
+    "data": ["storage", "scrapers", "pipelines"],
+    "storage": ["raw", "images", "processed"],
+    "images": ["cellphones", "versus"],
 }
 
-os.makedirs(paths["raw"], exist_ok=True)
-os.makedirs(paths["images"], exist_ok=True)
+for folder, sub_folders in folders.items():
+    for sub_folder in sub_folders:
+        os.makedirs(os.path.join(pathtree("chatbot").get(folder), sub_folder), exist_ok=True)
 
 class VersusScraper:
-    def __init__(self):
-        self.Chrome_Browser = webdriver.Chrome(options=self.LoadOptions())
-
-    def LoadOptions(self):
-        """
-        Loads the options for the Chrome browser.
-        """
-        Options = webdriver.ChromeOptions()
-        with open(paths["config"], "r", encoding="utf-8") as f:
-            Config = json5.load(f)
-        arguments = Config["chrome_options"].get("arguments", {})
-        for Key, Value in arguments.items():
-            if Value == True:
-                Options.add_argument(Key)
-
-        Experimental_Options = Config["chrome_options"].get("experimental_options", {})
-        for Key, Value in Experimental_Options.items():
-            Options.add_experimental_option(Key, Value)
-
-        return Options
+    browser = "chrome"
+    window_size = "1280,720"
+    uc = True
+    undetectable = True
+    incognito = True
+    headless = True
+    disable_gpu = True
+    ad_block = True
+    
+    def __init__(self, rescrape: bool = False):
+        self.Chrome_Browser =  Driver(
+            browser=self.browser,
+            window_size=self.window_size,
+            headless=self.headless,
+            incognito=self.incognito,
+            disable_gpu=self.disable_gpu,
+            ad_block=self.ad_block,
+            uc=self.uc,
+            undetected=self.undetectable,
+        )
+        if rescrape:
+            self.CollectDeviceLinks()
 
     def CollectDeviceLinks(self):
         """
@@ -78,7 +83,7 @@ class VersusScraper:
             {"DEVICE": Device_Names, "VERSUS": Device_URLs, "STATUS": 0}
         )
         Device_And_URLs.to_csv(
-            os.path.join(paths["raw"], "Device URLs.csv"),
+            os.path.join(pathtree("chatbot").get("raw"), "Device URLs.csv"),
             mode="w",
             header=True,
             index=False,
@@ -184,7 +189,7 @@ class VersusScraper:
         """
         for Group_Tags in self.ExtractGroupIds(Source_Code):
             Name_File = f"Device {Group_Tags.split('_')[1].title()}.csv"
-            File_Path = os.path.join(paths["raw"], Name_File)
+            File_Path = os.path.join(pathtree("chatbot").get("raw"), Name_File)
             New_Columns = list(
                 self.RetrieveGroupInfo(
                     Source_Code, Group_Tags, Label_Tables=None
@@ -238,7 +243,7 @@ class VersusScraper:
 
             File_Name = "-".join(Device_Name.replace('"', "").split("/"))
             Image_Name = os.path.basename(File_Name)
-            Output_Path = os.path.join(paths["images"], Image_Name)
+            Output_Path = os.path.join(pathtree("chatbot").get("versus"), Image_Name)
 
             response = requests.get(Image_URL, stream=True)
             if response.status_code == 200:
@@ -254,11 +259,11 @@ class VersusScraper:
         """
         Fetches data from Versus.com and saves it to CSV files.
         """
-        if "Device URLs.csv" not in os.listdir(paths["raw"]):
+        if "Device URLs.csv" not in os.listdir(pathtree("chatbot").get("raw")):
             print("Device URLs not found. Collecting device URLs.")
             self.CollectDeviceLinks()
 
-        Markup = pd.read_csv(os.path.join(paths["raw"], "Device URLs.csv"))
+        Markup = pd.read_csv(os.path.join(pathtree("chatbot").get("raw"), "Device URLs.csv"))
         try:
             for _, Row in Markup.iterrows():
                 if Row["STATUS"] == 0:
@@ -275,7 +280,7 @@ class VersusScraper:
 
                         Markup.at[_, "STATUS"] = 1
                         Markup.to_csv(
-                            os.path.join(paths["raw"], "Device URLs.csv"),
+                            os.path.join(pathtree("chatbot").get("raw"), "Device URLs.csv"),
                             mode="w",
                             header=True,
                             index=False,
@@ -292,4 +297,3 @@ class VersusScraper:
 
 if __name__ == "__main__":
     Run = VersusScraper()
-    Run.FetchDeviceData()

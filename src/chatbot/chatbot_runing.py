@@ -1,10 +1,10 @@
 import os, sys
 from pathlib import Path
 sys.path.append(os.path.join(Path(__file__).resolve().parent))
-from handlers.astorine import reply
+from handlers.responses import reply
+from handlers.rcm import searching
 from nlp.helper.ibuilder import igenerate_lite
 from nlp.extractor import extract
-from handlers.rcm import searching
 from decimal import Decimal
 import random
 
@@ -159,3 +159,12 @@ def chatbot_handle(user_id: str, user_input: str):
     session = get_session(user_id)
     response = update_session(session, user_input)
     return response
+
+if __name__ == "__main__":
+    while True:
+        user_id = "user_dep_trai_nhat_qua_dat"
+        user_input = input("User: ")
+        if user_input == "bye":
+            print(chatbot_handle(user_id, user_input))
+            break
+        print(chatbot_handle(user_id, user_input))

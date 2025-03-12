@@ -1,4 +1,6 @@
-import os, time
+import os, sys, time
+from pathlib import Path
+sys.path.append(str(Path().resolve()))
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -7,16 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from seleniumbase import Driver
-
-base_dir = Path(__file__).resolve().parents[2]
-paths = {
-    "raw": os.path.abspath(f"{base_dir}/data/storage/raw"),
-    "images": os.path.abspath(f"{base_dir}/data/storage/images"),
-    "config": os.path.abspath(f"{base_dir}/config/config.json"),
-}
-
-os.makedirs(paths["raw"], exist_ok=True)
-os.makedirs(paths["images"], exist_ok=True)
+from src.chatbot import pathtree
 
 Cookie_Accepted = False
 
@@ -58,7 +51,7 @@ class PricespyScraper:
 
     def UpdatePriceURLs(self):
         """Update PriceSpy URLs"""
-        file_path = os.path.join(paths["raw"], "Device URLs.csv")
+        file_path = os.path.join(pathtree("chatbot").get("raw"), "Device URLs.csv")
         device_info = pd.read_csv(file_path)
         if "PRICESPY" not in device_info.columns:
             device_info["PRICESPY"] = device_info["DEVICE"].apply(
@@ -192,7 +185,7 @@ class PricespyScraper:
 
     def FetchDevicePrices(self):
         """Fetch Device Prices"""
-        File_Path = os.path.join(paths["raw"], "Device Price.csv")
+        File_Path = os.path.join(pathtree("chatbot").get("raw"), "Device Price.csv")
         Browser = self.SetupChromeDriver()
         try:
             pricespy_urls = self.UpdatePriceURLs()

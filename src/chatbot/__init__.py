@@ -9,7 +9,7 @@ skip = [
     "generated_indexed_rulesets",
 ]
 
-def pathtree(nrf: str) -> dict:
+def pathtree(nrf: str = "chatbot") -> dict:
     cur_dir = os.path.dirname(__file__)
     rdir = Path(cur_dir.split(nrf)[0]) / nrf
     ftree = {}
